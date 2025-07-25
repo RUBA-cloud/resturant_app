@@ -1,0 +1,1 @@
+const mainImageUrl = 'asset/images/';
