@@ -1,7 +1,8 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
+import 'package:resturant_app/constants/colors.dart';
 
-class Customtextfiled extends StatelessWidget {
+class CustomTextfiled extends StatelessWidget {
   final TextEditingController? controller;
   final String? labelText;
   final String? hintText;
@@ -11,7 +12,7 @@ class Customtextfiled extends StatelessWidget {
   final bool? obscureText;
   final String? Function(String?)? validator;
 
-  const Customtextfiled({
+  const CustomTextfiled({
     super.key,
     this.controller,
     this.labelText,
@@ -30,9 +31,15 @@ class Customtextfiled extends StatelessWidget {
       decoration: InputDecoration(
         labelText: labelText,
         hintText: hintText,
+        filled: true,
+        fillColor: mainColor.withOpacity(0.2),
         border:
             border ??
-            OutlineInputBorder(borderRadius: BorderRadius.circular(8.0)),
+            const OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+              borderRadius: BorderRadius.all(Radius.circular(50)),
+            ),
+
         prefixIcon: prefixIcon,
       ),
       keyboardType: keyboardType ?? TextInputType.text,

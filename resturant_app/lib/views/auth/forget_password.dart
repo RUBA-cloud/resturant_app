@@ -1,25 +1,33 @@
 import '../../constants/exported_package.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+class ForgetPassword extends StatelessWidget {
+  ForgetPassword({super.key});
 
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  TextEditingController get emailController => TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BasicAuthPage(formWidget: _formlogin(), title: "sign_in".tr),
+      body: BasicAuthPage(
+        formWidget: forgetPasswordForm(),
+        title: "forget_password".tr,
+        description: "forget_password_descripation".tr,
+      ),
     );
   }
 
-  Widget _formlogin() => // Form Fields
+  Widget forgetPasswordForm() => // Form Fields
   Form(
     key: _formKey,
     child: Column(
       children: [
         CustomTextfiled(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
+          ),
           controller: emailController,
           labelText: 'email_label'.tr,
           hintText: 'email_hint'.tr,
@@ -35,30 +43,13 @@ class LoginPage extends StatelessWidget {
           },
         ),
         const SizedBox(height: 16),
-        CustomTextfiled(
-          controller: passwordController,
-          labelText: 'password_label'.tr,
-          hintText: 'password_hint'.tr,
-          obscureText: true,
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'password_required'.tr;
-            }
-            if (value.length < 6) {
-              return 'password_short'.tr;
-            }
-            return null;
-          },
-        ),
-        const SizedBox(height: 24),
-
         // Buttons Row
         Row(
           children: [
             TextButton(
-              onPressed: () => Get.toNamed(AppRoutes.forgetPassword),
+              onPressed: () => Get.toNamed(AppRoutes.login),
               child: Text(
-                'forgot_password'.tr,
+                'sign_in'.tr,
                 style: const TextStyle(color: Colors.black54, fontSize: 14),
               ),
             ),
@@ -80,28 +71,7 @@ class LoginPage extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 20),
-
         // Sign Up
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'no_account'.tr,
-              style: const TextStyle(color: Colors.black54, fontSize: 14),
-            ),
-            TextButton(
-              onPressed: () => Get.toNamed(AppRoutes.register),
-              child: Text(
-                'sign_up'.tr,
-                style: TextStyle(
-                  color: mainColor,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                ),
-              ),
-            ),
-          ],
-        ),
       ],
     ),
   );
