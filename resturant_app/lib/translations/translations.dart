@@ -50,6 +50,7 @@ class AppTranslations extends Translations {
       'passwords_not_match': 'Passwords do not match',
       'agree_terms': 'I agree with conditions and terms',
       'register_button': 'Register',
+      'make_payment': 'Make Payment',
     },
     'ar_SA': {
       'app_name': 'تطبيق المطعم',
@@ -76,6 +77,7 @@ class AppTranslations extends Translations {
       'better_planet': 'كوكب أفضل',
       'flavor_of_week': 'نكهة الأسبوع',
       'cart': 'السلة',
+      'make_payment': 'إتمام الدفع',
       'cart_items': '@count عناصر',
       'fast_food': 'وجبات سريعة',
       'healthy_food': 'طعام صحي',

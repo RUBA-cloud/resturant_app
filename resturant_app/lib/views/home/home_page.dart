@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resturant_app/constants/colors.dart';
+import 'package:resturant_app/routes/app_routes.dart';
 import 'package:resturant_app/views/home/cubit/home_cubit.dart';
 import 'package:resturant_app/views/home/cubit/home_state.dart';
 import 'package:resturant_app/models/category_model.dart';
@@ -76,7 +77,7 @@ class _HomeContentState extends State<_HomeContent> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        isArabic ? "آيس كريم أفضل" : "Better Ice cream",
+                        'app_name'.tr,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 22,
@@ -97,7 +98,7 @@ class _HomeContentState extends State<_HomeContent> {
                   // Locale Button
                   CircleAvatar(
                     radius: 22,
-                    backgroundColor: Colors.pink,
+                    backgroundColor: secondrycolor,
                     child: IconButton(
                       icon: Text(
                         isArabic ? "EN" : "AR",
@@ -132,15 +133,15 @@ class _HomeContentState extends State<_HomeContent> {
                     return ChoiceChip(
                       label: Text(isArabic ? cat.nameAr : cat.nameEn),
                       avatar: Icon(
-                        Icons.category,
+                        cat.icon,
                         size: 18,
-                        color: selected ? Colors.white : Colors.pink,
+                        color: selected ? Colors.white : mainColor,
                       ),
                       selected: selected,
-                      selectedColor: Colors.pink,
+                      selectedColor: mainColor,
                       backgroundColor: Colors.white,
                       labelStyle: TextStyle(
-                        color: selected ? Colors.white : Colors.pink,
+                        color: selected ? Colors.white : mainColor,
                         fontWeight: FontWeight.bold,
                       ),
                       shape: RoundedRectangleBorder(
@@ -265,7 +266,11 @@ class _FlavorCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 6),
                   Chip(
-                    label: Text(isArabic ? "براوني فادج" : "Fudge Brownie"),
+                    label: Text(
+                      product.description.isNotEmpty
+                          ? product.description
+                          : "Delicious flavor",
+                    ),
                     backgroundColor: const Color(0xFFE7F3E9),
                     labelStyle: const TextStyle(color: Colors.black54),
                     padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -276,7 +281,7 @@ class _FlavorCard extends StatelessWidget {
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
-                      color: Colors.pink,
+                      color: Colors.white,
                     ),
                   ),
                 ],
@@ -293,7 +298,8 @@ class _FlavorCard extends StatelessWidget {
                 padding: const EdgeInsets.all(16),
                 elevation: 0,
               ),
-              onPressed: () {},
+              onPressed: () =>
+                  Get.toNamed(AppRoutes.productDetails, arguments: product),
               child: const Icon(
                 Icons.shopping_cart_outlined,
                 color: Colors.white,
@@ -313,36 +319,47 @@ class _ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 110,
-      margin: const EdgeInsets.only(right: 12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.04),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(product.image, height: 50, width: 50, fit: BoxFit.cover),
-          const SizedBox(height: 8),
-          Text(
-            isArabic ? product.nameAr : product.nameEn,
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-            textAlign: TextAlign.center,
-            maxLines: 2,
-          ),
-          Text(
-            "\$${product.price.toStringAsFixed(2)}",
-            style: const TextStyle(color: secondrycolor, fontSize: 12),
-          ),
-        ],
+    return InkWell(
+      onTap: () => Get.toNamed(AppRoutes.productDetails, arguments: product),
+      child: Container(
+        width: 110,
+        margin: const EdgeInsets.only(right: 12),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(18),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.04),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(
+              flex: 1,
+              child: Image.asset(
+                product.image,
+                height: 50,
+                width: 50,
+                fit: BoxFit.cover,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              isArabic ? product.nameAr : product.nameEn,
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+              textAlign: TextAlign.center,
+              maxLines: 2,
+            ),
+            Text(
+              "\${product.price.toStringAsFixed(2)}",
+              style: const TextStyle(color: Colors.white, fontSize: 12),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -351,66 +368,72 @@ class _ProductCard extends StatelessWidget {
 class _CartBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 64,
-      decoration: BoxDecoration(
-        color: const Color(0xFF7C184A),
-        borderRadius: BorderRadius.circular(24),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          // Cart Info
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Row(
-              children: [
-                const CircleAvatar(
-                  radius: 18,
-                  backgroundColor: Colors.white,
-                  child: Text(
-                    "2",
-                    style: TextStyle(
-                      color: Colors.pink,
-                      fontWeight: FontWeight.bold,
+    return InkWell(
+      onTap: () => Get.toNamed(AppRoutes.cart),
+      child: Container(
+        height: 64,
+        decoration: BoxDecoration(
+          color: (mainColor),
+          borderRadius: BorderRadius.circular(24),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            // Cart Info
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Row(
+                children: [
+                  const CircleAvatar(
+                    radius: 18,
+                    backgroundColor: Colors.white,
+                    child: Text(
+                      "2",
+                      style: TextStyle(
+                        color: Colors.pink,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(width: 12),
-                const Text(
-                  "Cart",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
+                  const SizedBox(width: 12),
+                  const Text(
+                    "Cart",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
                   ),
-                ),
-                const SizedBox(width: 8),
-                const Text(
-                  "2 Items",
-                  style: TextStyle(color: Colors.white70, fontSize: 15),
-                ),
-              ],
+                  const SizedBox(width: 8),
+                  const Text(
+                    "2 Items",
+                    style: TextStyle(color: Colors.white70, fontSize: 15),
+                  ),
+                ],
+              ),
             ),
-          ),
-          // Cart Images (example)
-          Padding(
-            padding: const EdgeInsets.only(right: 18),
-            child: Row(
-              children: [
-                CircleAvatar(
-                  radius: 16,
-                  backgroundImage: AssetImage('asset/images/background.jpg'),
-                ),
-                const SizedBox(width: 4),
-                CircleAvatar(
-                  radius: 16,
-                  backgroundImage: AssetImage('asset/images/background.jpg'),
-                ),
-              ],
+            // Cart Images (example)
+            Padding(
+              padding: const EdgeInsets.only(right: 18),
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    foregroundColor: Colors.white.withOpacity(0.5),
+                    radius: 16,
+                    backgroundImage: AssetImage('asset/images/sandwish.png'),
+                  ),
+                  const SizedBox(width: 4),
+                  CircleAvatar(
+                    radius: 16,
+                    foregroundColor: Colors.white.withOpacity(0.5),
+
+                    backgroundImage: AssetImage('asset/images/pasta3.png'),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

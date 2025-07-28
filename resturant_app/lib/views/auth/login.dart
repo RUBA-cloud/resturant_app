@@ -67,6 +67,7 @@ class LoginPage extends StatelessWidget {
               style: buttonStyle,
 
               onPressed: () {
+                Get.toNamed(AppRoutes.home);
                 if (_formKey.currentState!.validate()) {
                   Get.snackbar(
                     'login_success_title'.tr,
