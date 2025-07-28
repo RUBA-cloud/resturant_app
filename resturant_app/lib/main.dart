@@ -1,13 +1,16 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:resturant_app/constants/theme_data.dart';
 import 'package:resturant_app/services/locale_services.dart';
 import 'package:resturant_app/translations/translations.dart';
-import 'package:resturant_app/views/auth/login.dart';
+import 'package:resturant_app/views/auth/login/login.dart';
 
 import '../../constants/exported_package.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp(); // Initialize Firebase
+
   final locale = await LocaleService.getSavedLocale();
   runApp(RecipeApp(locale: locale));
 }

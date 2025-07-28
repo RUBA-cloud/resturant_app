@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:resturant_app/models/product_model.dart';
 import 'package:resturant_app/views/auth/forget_password.dart';
-import 'package:resturant_app/views/auth/login.dart';
+import 'package:resturant_app/views/auth/login/login.dart';
 import 'package:resturant_app/views/auth/register.dart';
 import 'package:resturant_app/views/cart/cart_page.dart';
 import 'package:resturant_app/views/home/home_page.dart';

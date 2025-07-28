@@ -1,43 +1,42 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:resturant_app/constants/exported_package.dart';
 import 'package:resturant_app/views/auth/login/cubit/login_cubit.dart';
 import 'package:resturant_app/views/auth/login/cubit/login_state.dart';
 
-class RegisterPage extends StatelessWidget {
-  RegisterPage({super.key});
+import '../../../constants/exported_package.dart';
 
+class LoginPage extends StatelessWidget {
+  LoginPage({super.key});
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<LoginCubit>(
+    return BlocProvider(
       create: (_) => LoginCubit(),
       child: BlocConsumer<LoginCubit, LoginState>(
         listener: (context, state) {
           if (state is LoginLoading) {
+            // Optional: Show loading dialog
             Get.dialog(
               const Center(child: CircularProgressIndicator()),
               barrierDismissible: false,
             );
           } else {
-            Get.back(); // close dialog if open
+            Get.back(); // Close loading dialog
           }
 
           if (state is LoginSuccess) {
             Get.snackbar(
-              'register_success_title'.tr,
-              'register_success_message'.tr,
+              'login_success_title'.tr,
+              'login_success_message'.tr,
               backgroundColor: Colors.green.shade100,
             );
             Get.offAllNamed(AppRoutes.home);
           } else if (state is LoginError) {
             Get.snackbar(
-              'register_failed_title'.tr,
+              'login_failed_title'.tr,
               state.message,
               backgroundColor: Colors.red.shade100,
             );
@@ -46,8 +45,8 @@ class RegisterPage extends StatelessWidget {
         builder: (context, state) {
           return Scaffold(
             body: BasicAuthPage(
-              formWidget: _formRegister(context),
-              title: "register".tr,
+              formWidget: _formLogin(context),
+              title: "sign_in".tr,
             ),
           );
         },
@@ -55,36 +54,19 @@ class RegisterPage extends StatelessWidget {
     );
   }
 
-  Widget _formRegister(BuildContext context) {
+  Widget _formLogin(BuildContext context) {
     return Form(
       key: _formKey,
       child: Column(
         children: [
-          CustomTextfiled(
-            controller: nameController,
-            labelText: 'name_label'.tr,
-            hintText: 'name_hint'.tr,
-            keyboardType: TextInputType.name,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'name_required'.tr;
-              }
-              return null;
-            },
-          ),
-          const SizedBox(height: 16),
           CustomTextfiled(
             controller: emailController,
             labelText: 'email_label'.tr,
             hintText: 'email_hint'.tr,
             keyboardType: TextInputType.emailAddress,
             validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'email_required'.tr;
-              }
-              if (!GetUtils.isEmail(value)) {
-                return 'email_invalid'.tr;
-              }
+              if (value == null || value.isEmpty) return 'email_required'.tr;
+              if (!GetUtils.isEmail(value)) return 'email_invalid'.tr;
               return null;
             },
           ),
@@ -95,44 +77,29 @@ class RegisterPage extends StatelessWidget {
             hintText: 'password_hint'.tr,
             obscureText: true,
             validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'password_required'.tr;
-              }
-              if (value.length < 6) {
-                return 'password_short'.tr;
-              }
-              return null;
-            },
-          ),
-          const SizedBox(height: 16),
-          CustomTextfiled(
-            controller: confirmPasswordController,
-            labelText: 'renter_password_label'.tr,
-            hintText: 'password_hint'.tr,
-            obscureText: true,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'confirm_password_required'.tr;
-              }
-              if (value != passwordController.text) {
-                return 'password_mismatch'.tr;
-              }
+              if (value == null || value.isEmpty) return 'password_required'.tr;
+              if (value.length < 6) return 'password_short'.tr;
               return null;
             },
           ),
           const SizedBox(height: 24),
-
-          // Buttons Row
           Row(
             children: [
+              TextButton(
+                onPressed: () => Get.toNamed(AppRoutes.forgetPassword),
+                child: Text(
+                  'forgot_password'.tr,
+                  style: const TextStyle(color: Colors.black54, fontSize: 14),
+                ),
+              ),
               const Spacer(),
               ElevatedButton(
                 style: buttonStyle,
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    context.read<LoginCubit>().register(
-                      emailController.text.trim(),
-                      passwordController.text.trim(),
+                    context.read<LoginCubit>().login(
+                      emailController.text,
+                      passwordController.text,
                     );
                   }
                 },
@@ -141,19 +108,17 @@ class RegisterPage extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 20),
-
-          // Sign In Option
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'have_account'.tr,
+                'no_account'.tr,
                 style: const TextStyle(color: Colors.black54, fontSize: 14),
               ),
               TextButton(
-                onPressed: () => Get.toNamed(AppRoutes.login),
+                onPressed: () => Get.toNamed(AppRoutes.register),
                 child: Text(
-                  'sign_in'.tr,
+                  'sign_up'.tr,
                   style: TextStyle(
                     color: mainColor,
                     fontWeight: FontWeight.bold,
