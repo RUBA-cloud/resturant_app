@@ -63,7 +63,7 @@ class BasicAuthPage extends StatelessWidget {
                           ? Text(title!, style: headingStyle)
                           : const SizedBox(),
                       description != null
-                          ? Text(title!, style: subHeadingStyle)
+                          ? Text(description!, style: subHeadingStyle)
                           : const SizedBox(),
                       // Sign In Title
                       const SizedBox(height: 20),

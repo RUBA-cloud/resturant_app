@@ -9,7 +9,7 @@ import '../../constants/exported_package.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp(); // Initialize Firebase
+  await Firebase.initializeApp(); // Initialize Firebase
 
   final locale = await LocaleService.getSavedLocale();
   runApp(RecipeApp(locale: locale));

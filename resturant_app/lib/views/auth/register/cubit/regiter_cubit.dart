@@ -1,11 +1,17 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'login_state.dart';
+import 'package:resturant_app/views/auth/register/cubit/register_state.dart';
 
-class LoginCubit extends Cubit<LoginState> {
-  LoginCubit() : super(const LoginInitial());
+class RegisterCubit extends Cubit<RegisterState> {
+  RegisterCubit() : super(RegisterInitial());
 
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   // Register
@@ -14,46 +20,27 @@ class LoginCubit extends Cubit<LoginState> {
     String password,
     BuildContext context,
   ) async {
-    if (isClosed) return;
-    emit(AuthLoading());
+    emit(RegisterInitial());
 
     try {
       final result = await _auth.createUserWithEmailAndPassword(
         email: email.trim(),
         password: password.trim(),
       );
-
+      emit(RegisterLoaded(result.user!.uid));
       // Show success snackbar
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Registration successful for ${result.user!.email}'),
         ),
       );
-
-      if (!isClosed) emit(AuthSuccess(result.user!.uid));
     } on FirebaseAuthException catch (e) {
       // Show error snackbar
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(e.message ?? 'Registration failed')),
       );
 
-      if (!isClosed) emit(AuthError(e.message ?? 'Registration failed'));
-    }
-  }
-
-  // Login
-  Future<void> login(String email, String password) async {
-    if (isClosed) return;
-    emit(const LoginLoading());
-
-    try {
-      final result = await _auth.signInWithEmailAndPassword(
-        email: email.trim(),
-        password: password.trim(),
-      );
-      if (!isClosed) emit(LoginSuccess(result.user!.uid));
-    } on FirebaseAuthException catch (e) {
-      if (!isClosed) emit(LoginError(e.message ?? 'Login failed'));
+      if (!isClosed) emit(RegisterError(e.message ?? 'Registration failed'));
     }
   }
 }

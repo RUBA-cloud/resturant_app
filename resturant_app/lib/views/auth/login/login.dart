@@ -58,6 +58,10 @@ class LoginPage extends StatelessWidget {
     return Form(
       key: _formKey,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
+        // mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+
         children: [
           CustomTextfiled(
             controller: emailController,
@@ -116,7 +120,7 @@ class LoginPage extends StatelessWidget {
                 style: const TextStyle(color: Colors.black54, fontSize: 14),
               ),
               TextButton(
-                onPressed: () => Get.toNamed(AppRoutes.register),
+                onPressed: () => {Get.toNamed(AppRoutes.register)},
                 child: Text(
                   'sign_up'.tr,
                   style: TextStyle(
