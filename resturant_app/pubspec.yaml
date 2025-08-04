@@ -21,6 +21,9 @@ dependencies:
   flutter_screenutil: ^5.8.4
   firebase_core: ^4.0.0
   firebase_auth: ^6.0.0
+  flutter_side_menu: ^0.5.41
+  awesome_drawer_bar: ^1.2.1
+  local_hero_transform: ^1.0.6
 dev_dependencies:
   flutter_test:
     sdk: flutter

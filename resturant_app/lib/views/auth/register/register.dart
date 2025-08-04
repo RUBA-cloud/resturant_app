@@ -1,7 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resturant_app/constants/exported_package.dart';
-import 'package:resturant_app/views/auth/login/cubit/login_cubit.dart';
-import 'package:resturant_app/views/auth/login/cubit/login_state.dart';
 import 'package:resturant_app/views/auth/register/cubit/register_state.dart';
 import 'package:resturant_app/views/auth/register/cubit/regiter_cubit.dart';
 
@@ -14,7 +12,7 @@ class RegisterPage extends StatelessWidget {
       create: (_) => RegisterCubit(),
       child: BlocConsumer<RegisterCubit, RegisterState>(
         listener: (context, state) {
-          if (state is RegisterInitial || state is AuthLoading) {
+          if (state is RegisterInitial || state is RegisterLoading) {
             Get.dialog(
               const Center(child: CircularProgressIndicator()),
               barrierDismissible: false,

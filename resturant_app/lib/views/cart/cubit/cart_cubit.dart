@@ -11,20 +11,26 @@ class CartCubit extends Cubit<CartState> {
         CartItemModel(
           name: 'Chocolate',
           desc: 'Peanut butter ripple',
-          price: 8.00,
+          price: 5.00,
           image: 'asset/images/burger0.png',
         ),
         CartItemModel(
           name: 'Turtle Crossing',
           desc: 'Creamy vanilla x 2',
-          price: 16.00,
+          price: 5.00,
           image: 'asset/images/burger1.png',
         ),
         CartItemModel(
           name: 'Chocolate Chip',
           desc: 'Green peppermint',
-          price: 10.00,
-          image: 'assets/images/cake0.png',
+          price: 3.00,
+          image: 'asset/images/cake0.png',
+        ),
+        CartItemModel(
+          name: 'Chocolate Chip',
+          desc: 'Green peppermint',
+          price: 5.00,
+          image: 'asset/images/cake0.png',
         ),
       ]),
     );
@@ -38,10 +44,10 @@ class CartCubit extends Cubit<CartState> {
     }
   }
 
-  void removeItem(int index) {
+  void removeItem(CartItemModel item) {
     if (state is CartLoaded) {
       final updated = List<CartItemModel>.from((state as CartLoaded).items)
-        ..removeAt(index);
+        ..remove(item);
       emit(CartLoaded(updated));
     }
   }

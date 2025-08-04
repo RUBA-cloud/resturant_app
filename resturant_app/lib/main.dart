@@ -1,23 +1,18 @@
-import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:resturant_app/constants/theme_data.dart';
-import 'package:resturant_app/services/locale_services.dart';
+import 'package:resturant_app/components/side_bar.dart';
+import 'package:resturant_app/constants/exported_package.dart';
+import 'package:resturant_app/main_cubit.dart';
 import 'package:resturant_app/translations/translations.dart';
 import 'package:resturant_app/views/auth/login/login.dart';
 
-import '../../constants/exported_package.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(); // Initialize Firebase
-
-  final locale = await LocaleService.getSavedLocale();
-  runApp(RecipeApp(locale: locale));
+  runApp(const RecipeApp());
 }
 
 class RecipeApp extends StatelessWidget {
-  final Locale locale;
-  const RecipeApp({super.key, this.locale = const Locale('en', 'US')});
+  const RecipeApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,14 +20,32 @@ class RecipeApp extends StatelessWidget {
       designSize: const Size(375, 812),
       minTextAdapt: true,
       splitScreenMode: true,
-      builder: (context, child) => GetMaterialApp(
-        theme: appTheme,
-        getPages: AppRoutes.routes,
-        debugShowCheckedModeBanner: false,
-        translations: AppTranslations(),
-        locale: const Locale('en', 'US'),
-        fallbackLocale: const Locale('en', 'US'),
-        home: LoginPage(),
+      builder: (context, child) => BlocProvider(
+        create: (_) => MainCubit()..initializeApp(),
+        child: BlocBuilder<MainCubit, MainState>(
+          builder: (context, state) {
+            final cubit = context.read<MainCubit>();
+            final currentLocale = Locale(
+              cubit.language,
+              cubit.language == "ar" ? "SA" : "US",
+            );
+            final currentTheme = cubit.isDark ?? false
+                ? ThemeData.dark()
+                : ThemeData.light();
+
+            return GetMaterialApp(
+              theme: currentTheme,
+              getPages: AppRoutes.routes,
+              debugShowCheckedModeBanner: false,
+              translations: AppTranslations(),
+              locale: currentLocale,
+              fallbackLocale: const Locale('en', 'US'),
+              home: state is MainAuthenticated
+                  ? Sidebar()
+                  : LoginPage(), // Simplified navigation
+            );
+          },
+        ),
       ),
     );
   }

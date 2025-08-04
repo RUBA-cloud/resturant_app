@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:resturant_app/components/side_bar.dart';
 import 'package:resturant_app/constants/colors.dart';
+import 'package:resturant_app/constants/styles.dart';
 import 'package:resturant_app/routes/app_routes.dart';
 import 'package:resturant_app/views/home/cubit/home_cubit.dart';
 import 'package:resturant_app/views/home/cubit/home_state.dart';
@@ -62,12 +64,12 @@ class _HomeContentState extends State<_HomeContent> {
     final products = widget.products;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF6F0F2),
+      drawer: Sidebar(),
+
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Header & Avatar & Locale Button
               Row(
@@ -76,22 +78,9 @@ class _HomeContentState extends State<_HomeContent> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'app_name'.tr,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 22,
-                          color: Colors.black87,
-                        ),
-                      ),
+                      Text('app_name'.tr),
                       const SizedBox(height: 2),
-                      Text(
-                        isArabic ? "كوكب أفضل" : "better planet",
-                        style: const TextStyle(
-                          fontSize: 16,
-                          color: Colors.black54,
-                        ),
-                      ),
+                      Text(isArabic ? "كوكب أفضل" : "better planet"),
                     ],
                   ),
 
@@ -266,23 +255,17 @@ class _FlavorCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 6),
                   Chip(
+                    backgroundColor: greenColor,
                     label: Text(
-                      product.description.isNotEmpty
-                          ? product.description
-                          : "Delicious flavor",
+                      product.description.isNotEmpty ? product.description : "",
                     ),
-                    backgroundColor: const Color(0xFFE7F3E9),
-                    labelStyle: const TextStyle(color: Colors.black54),
+                    labelStyle: headingStyle,
                     padding: const EdgeInsets.symmetric(horizontal: 8),
                   ),
                   const SizedBox(height: 16),
                   Text(
                     "\$${product.price.toStringAsFixed(2)}",
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                      color: Colors.white,
-                    ),
+                    style: textStyle,
                   ),
                 ],
               ),
@@ -329,6 +312,7 @@ class _ProductCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(18),
           boxShadow: [
             BoxShadow(
+              // ignore: deprecated_member_use
               color: Colors.black.withOpacity(0.04),
               blurRadius: 8,
               offset: const Offset(0, 2),
@@ -396,8 +380,8 @@ class _CartBar extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 12),
-                  const Text(
-                    "Cart",
+                  Text(
+                    "cart".tr,
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -405,10 +389,7 @@ class _CartBar extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  const Text(
-                    "2 Items",
-                    style: TextStyle(color: Colors.white70, fontSize: 15),
-                  ),
+                  Text("2 Items"),
                 ],
               ),
             ),
@@ -418,6 +399,7 @@ class _CartBar extends StatelessWidget {
               child: Row(
                 children: [
                   CircleAvatar(
+                    // ignore: deprecated_member_use
                     foregroundColor: Colors.white.withOpacity(0.5),
                     radius: 16,
                     backgroundImage: AssetImage('asset/images/sandwish.png'),
@@ -425,6 +407,7 @@ class _CartBar extends StatelessWidget {
                   const SizedBox(width: 4),
                   CircleAvatar(
                     radius: 16,
+                    // ignore: deprecated_member_use
                     foregroundColor: Colors.white.withOpacity(0.5),
 
                     backgroundImage: AssetImage('asset/images/pasta3.png'),

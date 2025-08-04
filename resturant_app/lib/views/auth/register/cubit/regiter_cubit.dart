@@ -12,7 +12,6 @@ class RegisterCubit extends Cubit<RegisterState> {
   final TextEditingController confirmPasswordController =
       TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   // Register
   Future<void> register(
@@ -23,12 +22,15 @@ class RegisterCubit extends Cubit<RegisterState> {
     emit(RegisterInitial());
 
     try {
-      final result = await _auth.createUserWithEmailAndPassword(
+      final FirebaseAuth auth = FirebaseAuth.instance;
+
+      final result = await auth.createUserWithEmailAndPassword(
         email: email.trim(),
         password: password.trim(),
       );
       emit(RegisterLoaded(result.user!.uid));
       // Show success snackbar
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Registration successful for ${result.user!.email}'),
@@ -36,6 +38,7 @@ class RegisterCubit extends Cubit<RegisterState> {
       );
     } on FirebaseAuthException catch (e) {
       // Show error snackbar
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(e.message ?? 'Registration failed')),
       );

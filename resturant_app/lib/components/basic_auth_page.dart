@@ -7,8 +7,12 @@ class BasicAuthPage extends StatelessWidget {
   final String? title;
   final String? description;
 
-  const BasicAuthPage({Key? key, this.formWidget, this.title, this.description})
-    : super(key: key);
+  const BasicAuthPage({
+    super.key,
+    this.formWidget,
+    this.title,
+    this.description,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +30,7 @@ class BasicAuthPage extends StatelessWidget {
         ),
 
         // Semi-transparent overlay
+        // ignore: deprecated_member_use
         Container(color: Colors.black.withOpacity(0.3)),
         // Scrollable content
         Center(
@@ -38,6 +43,7 @@ class BasicAuthPage extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
+                // ignore: deprecated_member_use
                 color: Colors.white.withOpacity(0.3),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(

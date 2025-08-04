@@ -17,6 +17,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.13.0"
+  auto_size_text:
+    dependency: transitive
+    description:
+      name: auto_size_text
+      sha256: "3f5261cd3fb5f2a9ab4e2fc3fba84fd9fcaac8821f20a1d4e71f557521b22599"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
+  awesome_drawer_bar:
+    dependency: "direct main"
+    description:
+      name: awesome_drawer_bar
+      sha256: adfa7448c6b3c7952e2b0ba76aa2e63655bf57891aa977bca34e21297e526049
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.1"
   bloc:
     dependency: transitive
     description:
@@ -158,6 +174,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_adaptive_scaffold:
+    dependency: transitive
+    description:
+      name: flutter_adaptive_scaffold
+      sha256: "5eb1d1d174304a4e67c4bb402ed38cb4a5ebdac95ce54099e91460accb33d295"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.3+1"
   flutter_bloc:
     dependency: "direct main"
     description:
@@ -182,6 +206,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.9.3"
+  flutter_side_menu:
+    dependency: "direct main"
+    description:
+      name: flutter_side_menu
+      sha256: "43eb5e450b33e9a9e63744b77f4c8aa472c419111f3956af27d85c540c4b5684"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.5.41"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -256,6 +288,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.1.1"
+  local_hero_transform:
+    dependency: "direct main"
+    description:
+      name: local_hero_transform
+      sha256: ea771fbc36f3de4f4debc66baa0087205be8561022d9d24773221d8752193700
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.6"
   matcher:
     dependency: transitive
     description:

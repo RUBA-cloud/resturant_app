@@ -1,6 +1,4 @@
-// ignore: file_names
-import 'package:flutter/material.dart';
-import 'package:resturant_app/constants/colors.dart';
+import 'package:resturant_app/constants/exported_package.dart';
 
 class CustomTextfiled extends StatelessWidget {
   final TextEditingController? controller;
@@ -32,6 +30,7 @@ class CustomTextfiled extends StatelessWidget {
         labelText: labelText,
         hintText: hintText,
         filled: true,
+        // ignore: deprecated_member_use
         fillColor: mainColor.withOpacity(0.2),
         border:
             border ??

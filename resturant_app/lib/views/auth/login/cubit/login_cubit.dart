@@ -1,48 +1,16 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+import 'package:resturant_app/constants/exported_package.dart';
 import 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
   LoginCubit() : super(const LoginInitial());
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
-  // Register
-  Future<void> register(
-    String email,
-    String password,
-    BuildContext context,
-  ) async {
-    if (isClosed) return;
-    emit(AuthLoading());
-
-    try {
-      final result = await _auth.createUserWithEmailAndPassword(
-        email: email.trim(),
-        password: password.trim(),
-      );
-
-      // Show success snackbar
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Registration successful for ${result.user!.email}'),
-        ),
-      );
-
-      if (!isClosed) emit(AuthSuccess(result.user!.uid));
-    } on FirebaseAuthException catch (e) {
-      // Show error snackbar
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(e.message ?? 'Registration failed')),
-      );
-
-      if (!isClosed) emit(AuthError(e.message ?? 'Registration failed'));
-    }
-  }
-
   // Login
   Future<void> login(String email, String password) async {
+    Get.toNamed(AppRoutes.home);
+
     if (isClosed) return;
     emit(const LoginLoading());
 
@@ -51,7 +19,13 @@ class LoginCubit extends Cubit<LoginState> {
         email: email.trim(),
         password: password.trim(),
       );
-      if (!isClosed) emit(LoginSuccess(result.user!.uid));
+      if (result.user == null) {
+        emit(const LoginError('User not found'));
+        return;
+      }
+      emit(LoginSuccess(result.user!.uid, email));
+
+      if (!isClosed) emit(LoginSuccess(result.user!.uid, email));
     } on FirebaseAuthException catch (e) {
       if (!isClosed) emit(LoginError(e.message ?? 'Login failed'));
     }

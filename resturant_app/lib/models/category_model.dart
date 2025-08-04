@@ -1,4 +1,4 @@
-import 'package:flutter/src/widgets/icon_data.dart';
+import 'package:resturant_app/constants/exported_package.dart';
 
 class CategoryModel {
   final String id;
@@ -6,6 +6,7 @@ class CategoryModel {
   final String nameAr;
   bool? selected;
   IconData? icon;
+
   CategoryModel({
     required this.id,
     required this.nameEn,
