@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-const mainColor = Color(0xffb74444);
-const secondColor = Color(0xFFff6a88);
-const primaryColor = Color(0xFFbb2d0f);
+const secondColor = Colors.deepOrangeAccent;
+const mainColor = Color.fromRGBO(75, 0, 130, 1);
+const primaryColor = Color(0xFFFFFFF0);
 const greenColor = Color(0xFFD5EAD6);
 const secondrycolor = Color(0xFFeb3c39);
 const textColor1 = Color.fromRGBO(206, 207, 190, 1);

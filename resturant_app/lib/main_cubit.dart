@@ -1,35 +1,40 @@
-// main_cubit.dart
-
-import 'dart:ui';
-
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/material.dart';
 
 class MainCubit extends Cubit<MainState> {
-  bool? isDark;
+  bool isDark = false;
   String language = 'en';
 
   MainCubit() : super(MainInitial());
 
   Future<void> initializeApp() async {
-    await Firebase.initializeApp(); // 🔥 Initialize Firebase
+    emit(MainLoading(language: language));
     final prefs = await SharedPreferences.getInstance();
+
     isDark = prefs.getBool('isDark') ?? false;
     language = prefs.getString('language') ?? 'en';
+    Get.updateLocale(Locale(language));
 
-    emit(MainUnauthenticated(language: language));
+    final hasEmail = prefs.containsKey('email');
+    final email = prefs.getString('email')?.trim() ?? '';
+
+    if (hasEmail && email.isNotEmpty) {
+      emit(MainAuthenticated(isDark: isDark, language: language));
+    } else {
+      emit(MainUnAuthenticated(isDark: isDark, language: language));
+    }
   }
 
-  void toggleTheme() async {
-    isDark = !(isDark ?? false);
+  Future<void> toggleTheme() async {
+    isDark = !isDark;
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('isDark', isDark!);
+    await prefs.setBool('isDark', isDark);
     emit(state.copyWith(isDark: isDark));
   }
 
-  void changeLanguage(String langCode) async {
+  Future<void> changeLanguage(String langCode, BuildContext context) async {
     language = langCode;
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('language', language);
@@ -38,14 +43,15 @@ class MainCubit extends Cubit<MainState> {
   }
 
   void login() {
-    emit(MainAuthenticated(language: language));
+    emit(MainAuthenticated(isDark: isDark, language: language));
   }
 
-  void logout() {
-    emit(MainUnauthenticated(language: language));
+  void logout() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('email');
+    emit(MainUnAuthenticated(isDark: isDark, language: language));
   }
 }
-// main_state.dart
 
 abstract class MainState {
   final bool? isDark;
@@ -81,11 +87,11 @@ class MainAuthenticated extends MainState {
   );
 }
 
-class MainUnauthenticated extends MainState {
-  const MainUnauthenticated({super.isDark, required super.language});
+class MainUnAuthenticated extends MainState {
+  const MainUnAuthenticated({super.isDark, required super.language});
 
   @override
-  MainState copyWith({bool? isDark, String? language}) => MainUnauthenticated(
+  MainState copyWith({bool? isDark, String? language}) => MainAuthenticated(
     isDark: isDark ?? this.isDark,
     language: language ?? this.language,
   );

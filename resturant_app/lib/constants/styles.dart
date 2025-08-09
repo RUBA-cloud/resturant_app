@@ -29,11 +29,10 @@ TextStyle textStyle = TextStyle(
 );
 
 final buttonStyle = ElevatedButton.styleFrom(
-  backgroundColor: Get.isDarkMode ? Colors.transparent : mainColor,
+  backgroundColor: Get.isDarkMode ? secondColor : mainColor,
   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
 );
 final buttonWhiteStyle = ElevatedButton.styleFrom(
-  backgroundColor: Get.isDarkMode ? Colors.transparent : whiteColor,
   textStyle: subHeadingStyle,
   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
 );
@@ -41,7 +40,6 @@ final TextStyle boldTextStyle = TextStyle(
   fontFamily: 'Serif',
   fontWeight: FontWeight.bold,
   fontSize: 12.r,
-  color: Get.isDarkMode ? whiteColor : Colors.black,
 );
 final textTextStyle = TextStyle(
   fontFamily: 'Serif',

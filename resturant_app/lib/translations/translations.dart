@@ -32,6 +32,7 @@ class AppTranslations extends Translations {
       'login_success_message': 'Logged in successfully!',
       'fast_food': 'Fast Food',
       'healthy_food': 'Healthy Food',
+      'forget_password': 'Forget Password',
       'forget_password_descripation':
           'Enter your email address and we’ll send you instructions to reset your password.',
       'register_title': 'Create Account',
@@ -96,6 +97,13 @@ class AppTranslations extends Translations {
           'Short slogan or positioning line goes here.',
       "faviorates_list_error": "faviorates_list_error",
       "home": "Home",
+      "most_selling": " Most  Selling",
+      "most_popular": "Most Popular",
+      "view_all": "View All",
+      "no_notofcations": "No notofcations",
+      "search_for_meals": "Search for meals..",
+      "notifications": "Notifications",
+      "buy_now": "Buy now",
     },
     'ar_SA': {
       'app_name': 'تطبيق المطعم',
@@ -126,6 +134,7 @@ class AppTranslations extends Translations {
       'cart_items': '@count عناصر',
       'fast_food': 'وجبات سريعة',
       'healthy_food': 'طعام صحي',
+      'forget_password': 'forget_password',
       'forget_password_descripation':
           'أدخل بريدك الإلكتروني وسنرسل لك تعليمات لإعادة تعيين كلمة المرور الخاصة بك.',
       'register_title': 'إنشاء حساب',
@@ -189,6 +198,13 @@ class AppTranslations extends Translations {
           'Short slogan or positioning line goes here.',
       "faviorates_list_error": "faviorate List Error",
       "home": "الصفحة الرئيسية",
+      "most_selling": " الاكثر مبيعا",
+      "most_popular": "الاكثر عاما",
+      "view_all": " الكل",
+      "no_notofcations": "لا يوجد اشعارات",
+      "search_for_meals": "ابحث عن وجبة",
+      "notifications": "الاشعارات",
+      "buy_now": "شراء",
     },
   };
 }

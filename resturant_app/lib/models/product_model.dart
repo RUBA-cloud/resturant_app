@@ -4,6 +4,8 @@ class ProductModel {
   final String description;
   final double price;
   final String image;
+  final double rate;
+  final bool isPopular;
 
   ProductModel({
     required this.id,
@@ -12,6 +14,8 @@ class ProductModel {
     required this.categoryId,
     required this.description,
     required this.price,
+    required this.rate,
     required this.image,
+    required this.isPopular,
   });
 }

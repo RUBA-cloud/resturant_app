@@ -1,13 +1,12 @@
 import 'package:get/get.dart';
-import 'package:resturant_app/components/side_bar.dart';
-import 'package:resturant_app/faviorate/faviorate_page.dart';
 import 'package:resturant_app/models/product_model.dart';
-import 'package:resturant_app/orders/orders_page.dart';
+import 'package:resturant_app/notification/notification_list.dart';
 import 'package:resturant_app/views/aboutUs/about_us.dart';
 import 'package:resturant_app/views/auth/forget_password.dart';
 import 'package:resturant_app/views/auth/login/login.dart';
 import 'package:resturant_app/views/auth/register/register.dart';
 import 'package:resturant_app/views/cart/cart_page.dart';
+import 'package:resturant_app/views/home/home_page.dart';
 import 'package:resturant_app/views/product_details/product_details.dart';
 
 class AppRoutes {
@@ -21,6 +20,9 @@ class AppRoutes {
   static const faviorates = '/favorite';
   static const orders = '/orders';
   static const aboutUs = '/about_us';
+  static const notifications = '/notifcations';
+
+  static const settings = '/settings';
 
   // static const onboarding = '/onboarding';
 
@@ -29,14 +31,15 @@ class AppRoutes {
     GetPage(name: login, page: () => LoginPage()),
     GetPage(name: forgetPassword, page: () => ForgetPassword()),
     GetPage(name: register, page: () => ForgetPassword()),
-    GetPage(name: home, page: () => Sidebar()),
+    GetPage(name: home, page: () => HomePage()),
+    GetPage(name: notifications, page: () => NotificationScreen()),
+
     GetPage(name: cart, page: () => CartPage()),
-    GetPage(name: faviorates, page: () => FavioratePage()),
     GetPage(
       name: productDetails,
       page: () => ProductDetails(product: Get.arguments as ProductModel),
     ),
-    GetPage(name: orders, page: () => OrdersPage()),
+
     GetPage(name: aboutUs, page: () => AboutUsPage(isAppBar: true)),
 
     // Add more routes here

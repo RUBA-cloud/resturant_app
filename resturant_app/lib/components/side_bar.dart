@@ -1,132 +1,112 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
-import 'package:awesome_drawer_bar/awesome_drawer_bar.dart';
-import 'package:resturant_app/components/side_bar_cubit.dart';
-import 'package:resturant_app/constants/colors.dart';
-import 'package:resturant_app/faviorate/faviorate_page.dart';
-import 'package:resturant_app/orders/orders_page.dart';
-import 'package:resturant_app/routes/app_routes.dart';
-import 'package:resturant_app/settings/settings_page.dart';
-import 'package:resturant_app/views/aboutUs/about_us.dart';
-import 'package:resturant_app/views/home/home_page.dart';
-import 'package:resturant_app/views/cart/cart_page.dart';
+import 'package:resturant_app/SharedPref.dart';
+import 'package:resturant_app/constants/exported_package.dart';
+import 'package:resturant_app/main_cubit.dart';
 
-class Sidebar extends StatefulWidget {
-  const Sidebar({super.key});
+void showBottomMenu(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    backgroundColor: Colors.transparent,
+    isScrollControlled: true,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+    ),
+    builder: (context) {
+      return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+        decoration: BoxDecoration(
+          color: Theme.of(context).cardColor,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 12,
+              offset: const Offset(0, -3),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Column(
+              children: [
+                const CircleAvatar(
+                  radius: 36,
+                  backgroundImage: AssetImage('assets/images/user.jpg'),
+                ),
+                const SizedBox(height: 10),
+                const Text(
+                  'John Doe',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  'john.doe@email.com',
+                  style: TextStyle(color: Colors.grey[600]),
+                ),
+              ],
+            ),
+            SwitchListTile(
+              title: Text('dark_mode'.tr),
+              secondary: Icon(Icons.brightness_6),
+              value: Get.isDarkMode,
+              onChanged: (bool value) =>
+                  context.read<MainCubit>().toggleTheme(),
+            ),
+            Divider(),
 
-  @override
-  State<Sidebar> createState() => _SidebarState();
+            ListTile(
+              leading: Icon(Icons.language),
+              title: Text('language'.tr),
+              trailing: Text(langCode!),
+              onTap: () => context.read<MainCubit>().changeLanguage(
+                langCode == "ar" ? "en" : "ar",
+                context,
+              ),
+            ),
+            Divider(),
+            const SizedBox(height: 24),
+            _buildMenuItem(
+              icon: Icons.info,
+              title: 'about_us'.tr,
+              onTap: () => Get.toNamed(AppRoutes.aboutUs),
+            ),
+            const Divider(),
+
+            const SizedBox(height: 24),
+
+            _buildMenuItem(
+              icon: Icons.logout,
+              title: 'logout'.tr,
+              onTap: () {
+                SharedPrefHelper.logout();
+                Navigator.pop(context);
+                Get.offAndToNamed(AppRoutes.login);
+              },
+            ),
+            const SizedBox(height: 20),
+          ],
+        ),
+      );
+    },
+  );
 }
 
-class _SidebarState extends State<Sidebar> {
-  final _controller = AwesomeDrawerBarController();
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+Widget _buildMenuItem({
+  required IconData icon,
+  required String title,
+  required VoidCallback onTap,
+}) {
+  return ListTile(
+    leading: Icon(icon, size: 26, color: secondColor),
+    title: Text(
+      title,
+      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+    ),
+    onTap: onTap,
 
-  final List<Map<String, dynamic>> menuItems = [
-    {'title': 'home'.tr, 'icon': Icons.home},
-    {'title': 'cart'.tr, 'icon': Icons.shopping_cart},
-    {'title': 'favorites'.tr, 'icon': Icons.favorite},
-    {'title': 'about_us'.tr, 'icon': Icons.info},
-    {'title': 'orders'.tr, 'icon': Icons.receipt_long},
-    {'title': 'settings'.tr, 'icon': Icons.settings},
-  ];
-
-  final List<Widget> pages = [
-    const HomePage(),
-    const CartPage(),
-    const FavioratePage(),
-    const AboutUsPage(isAppBar: false), // Replace with AboutUsPage()
-    const OrdersPage(),
-    const SettingsPage(isDark: false),
-  ]; // Replace with OrdersPage()
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => SidebarCubit(),
-      child: BlocBuilder<SidebarCubit, int>(
-        builder: (context, selectedIndex) {
-          return AwesomeDrawerBar(
-            controller: _controller,
-            slideWidth: MediaQuery.of(context).size.width * 0.7,
-            borderRadius: 24.0,
-            // ignore: deprecated_member_use
-            backgroundColor: mainColor.withOpacity(0.95),
-            menuScreen: _buildMenu(context, selectedIndex),
-            mainScreen: Scaffold(
-              key: _scaffoldKey,
-              appBar: AppBar(
-                backgroundColor: mainColor,
-                leading: IconButton(
-                  icon: const Icon(Icons.menu, color: Colors.white),
-                  onPressed: () {
-                    _controller.toggle!();
-                  },
-                ),
-                title: Text(
-                  menuItems[selectedIndex]['title'],
-                  style: const TextStyle(color: whiteColor),
-                ),
-              ),
-              body: pages[selectedIndex],
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  Widget _buildMenu(BuildContext context, int selectedIndex) {
-    return Drawer(
-      child: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [mainColor, secondColor, Colors.transparent],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
-        child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: ListView.builder(
-                  itemCount: menuItems.length,
-                  padding: EdgeInsets.zero,
-                  itemBuilder: (_, index) {
-                    final item = menuItems[index];
-                    return ListTile(
-                      leading: Icon(item['icon'], color: whiteColor),
-                      title: Text(
-                        item['title'],
-                        style: const TextStyle(color: whiteColor),
-                      ),
-                      selected: selectedIndex == index,
-                      selectedTileColor: Colors.white24,
-                      onTap: () =>
-                          context.read<SidebarCubit>().selectIndex(index),
-                    );
-                  },
-                ),
-              ),
-              const Divider(color: Colors.white54),
-              ListTile(
-                leading: CircleAvatar(radius: 16, child: Icon(Icons.person)),
-                title: Text(
-                  'logout'.tr,
-                  style: const TextStyle(color: Colors.white),
-                ),
-                onTap: () => Get.toNamed(AppRoutes.login),
-
-                // logout logic here
-              ),
-              const SizedBox(height: 20),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+    contentPadding: const EdgeInsets.symmetric(horizontal: 4),
+    horizontalTitleGap: 12,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+  );
 }

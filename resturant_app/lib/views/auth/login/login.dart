@@ -28,11 +28,6 @@ class LoginPage extends StatelessWidget {
           }
 
           if (state is LoginSuccess) {
-            Get.snackbar(
-              'login_success_title'.tr,
-              'login_success_message'.tr,
-              backgroundColor: Colors.green.shade100,
-            );
             Get.offAllNamed(AppRoutes.home);
           } else if (state is LoginError) {
             Get.snackbar(

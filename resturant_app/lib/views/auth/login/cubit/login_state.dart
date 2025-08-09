@@ -30,7 +30,7 @@ class LoginError extends LoginState {
 class LoginPreferences {
   static Future<void> saveLoginDetails(String uid, String email) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('uid', uid);
-    await prefs.setString('email', email);
+    prefs.setString('uid', uid);
+    prefs.setString('email', email);
   }
 }

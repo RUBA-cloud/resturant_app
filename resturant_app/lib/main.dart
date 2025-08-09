@@ -1,13 +1,16 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:resturant_app/components/side_bar.dart';
 import 'package:resturant_app/constants/exported_package.dart';
 import 'package:resturant_app/main_cubit.dart';
 import 'package:resturant_app/translations/translations.dart';
 import 'package:resturant_app/views/auth/login/login.dart';
+import 'package:resturant_app/views/home/home_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(); // 🔥 Initialize Firebase
+
   runApp(const RecipeApp());
 }
 
@@ -29,7 +32,7 @@ class RecipeApp extends StatelessWidget {
               cubit.language,
               cubit.language == "ar" ? "SA" : "US",
             );
-            final currentTheme = cubit.isDark ?? false
+            final currentTheme = cubit.isDark
                 ? ThemeData.dark()
                 : ThemeData.light();
 
@@ -41,7 +44,7 @@ class RecipeApp extends StatelessWidget {
               locale: currentLocale,
               fallbackLocale: const Locale('en', 'US'),
               home: state is MainAuthenticated
-                  ? Sidebar()
+                  ? HomePage()
                   : LoginPage(), // Simplified navigation
             );
           },

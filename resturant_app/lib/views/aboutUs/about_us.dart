@@ -46,7 +46,7 @@ class AboutUsPage extends StatelessWidget {
           fit: BoxFit.cover,
         ),
         const SizedBox(height: 12),
-        Text('app_name'.tr, style: boldTextStyle),
+        Text('app_name'.tr),
         const SizedBox(height: 8),
         Text('', style: boldTextStyle, textAlign: TextAlign.center),
       ],
@@ -57,12 +57,9 @@ class AboutUsPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('our_mission'.tr, style: boldTextStyle),
+        Text('our_mission'.tr),
         const SizedBox(height: 8),
-        Text(
-          'we_deliver_high_quality_food_experiences_and_convenience'.tr,
-          style: boldTextStyle,
-        ),
+        Text('we_deliver_high_quality_food_experiences_and_convenience'.tr),
       ],
     );
   }
@@ -76,7 +73,7 @@ class AboutUsPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('our_values'.tr, style: boldTextStyle), // Fixed key
+        Text('our_values'.tr), // Fixed key
         const SizedBox(height: 8),
         ...values.map(
           (v) => ListTile(
@@ -96,9 +93,9 @@ class AboutUsPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('our_story'.tr, style: boldTextStyle),
+        Text('our_story'.tr),
         const SizedBox(height: 8),
-        Text('founded_in_2020'.tr, style: boldTextStyle),
+        Text('founded_in_2020'.tr),
       ],
     );
   }
@@ -111,7 +108,7 @@ class AboutUsPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('meet_the_team'.tr, style: boldTextStyle),
+        Text('meet_the_team'.tr),
         const SizedBox(height: 12),
         Row(
           children: members.map((m) {
@@ -137,7 +134,7 @@ class AboutUsPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('testimonials'.tr, style: boldTextStyle),
+        Text('testimonials'.tr),
         const SizedBox(height: 8),
         ...reviews.map(
           (r) => Card(
@@ -147,11 +144,11 @@ class AboutUsPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(r['text']!, style: boldTextStyle),
+                  Text(r['text']!),
                   const SizedBox(height: 6),
                   Align(
                     alignment: Alignment.bottomRight,
-                    child: Text('- ${r['author']!}', style: boldTextStyle),
+                    child: Text('- ${r['author']!}'),
                   ),
                 ],
               ),
@@ -166,19 +163,19 @@ class AboutUsPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text('contact_us'.tr, style: boldTextStyle),
+        Text('contact_us'.tr),
         const SizedBox(height: 8),
         ListTile(
           leading: const Icon(Icons.location_on),
-          title: Text('123 Main St, Amman, Jordan', style: boldTextStyle),
+          title: Text('123 Main St, Amman, Jordan'),
         ),
         ListTile(
           leading: const Icon(Icons.phone),
-          title: Text('+962 7 1234 5678', style: boldTextStyle),
+          title: Text('+962 7 1234 5678'),
         ),
         ListTile(
           leading: const Icon(Icons.email),
-          title: Text('info@yourcompany.com', style: boldTextStyle),
+          title: Text('info@yourcompany.com'),
         ),
         const SizedBox(height: 16),
         Row(

@@ -6,3 +6,8 @@ export 'package:resturant_app/constants/colors.dart';
 export 'package:resturant_app/constants/styles.dart';
 export 'package:resturant_app/routes/app_routes.dart';
 export 'package:resturant_app/components/basic_list.dart';
+export 'package:resturant_app/constants/constants.dart';
+export 'package:resturant_app/views/home/cubit/home_cubit.dart';
+export 'package:resturant_app/views/home/cubit/home_state.dart';
+export 'package:resturant_app/views/home/falvor_widget.dart';
+export 'package:resturant_app/views/home/product_card.dart';

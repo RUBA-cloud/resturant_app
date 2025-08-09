@@ -30,7 +30,9 @@ class BasicList extends StatelessWidget {
                   Text(title, style: headingStyle),
                   CircleAvatar(
                     radius: 16,
-                    backgroundColor: whiteColor,
+                    backgroundColor: Get.isDarkMode
+                        ? Colors.black45
+                        : whiteColor,
                     child: Text('${items.length}', style: headingStyle),
                   ),
                 ],
@@ -57,24 +59,22 @@ class BasicList extends StatelessWidget {
                           const SizedBox(height: 4),
 
                           // Delete button, centered
-                          Center(
-                            child: CircleAvatar(
-                              radius: 16,
-                              backgroundColor: whiteColor,
-                              child: IconButton(
-                                padding: EdgeInsets.zero,
-                                alignment: Alignment.center,
-                                icon: const Icon(
-                                  Icons.delete,
-                                  color: mainColor,
-                                ),
-                                onPressed: () {
-                                  if (onItemTap != null) onItemTap!();
-                                },
-                              ),
-                            ),
-                          ),
+                          // CircleAvatar(
+                          //   radius: 16,
+                          //   backgroundColor:Get.isDarkMode?Colors.black45:whiteColor,
+                          //   child: IconButton(
+                          //     padding: EdgeInsets.zero,
 
+                          //     icon: const Icon(
+                          //       Icons.delete,
+                          //         //alignment: Alignment.center,
+                          //       color: mainColor,
+                          //     ),
+                          //     onPressed: () {
+                          //       if (onItemTap != null) onItemTap!();
+                          //     },
+                          //   ),
+                          // ),
                           const SizedBox(height: 8),
 
                           // Item row
